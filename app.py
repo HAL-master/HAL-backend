@@ -39,6 +39,7 @@ def chat():
         })
 
     except Exception as e:
+        print("OPENAI ERROR:", repr(e), flush=True)        
         return jsonify({
             "error": str(e)
         }), 500
