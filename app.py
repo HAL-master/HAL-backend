@@ -25,7 +25,7 @@ def chat():
 
     try:
         response = client.responses.create(
-            model="gpt-5.6-luna",
+            model="gpt-5.6-sol",
             input=[
                 {
                     "role": "user",
