@@ -25,32 +25,32 @@ def chat():
     if not message:
         return jsonify({"error": "Message is required"}), 400
 
-try:
-    for attempt in range(3):
-        try:
-            response = client.models.generate_content(
-                model="gemini-3.8-flash",
-                contents=message
-            )
+    try:
+        for attempt in range(3):
+            try:
+                response = client.models.generate_content(
+                    model="gemini-3.8-flash",
+                    contents=message
+                )
 
-            return jsonify({
-                "reply": response.text
-            })
+                return jsonify({
+                    "reply": response.text
+                })
 
-        except Exception as e:
-            if "503" in str(e) or "UNAVAILABLE" in str(e):
-                if attempt < 2:
-                    time.sleep(3)
-                    continue
-            raise
+            except Exception as e:
+                if "503" in str(e) or "UNAVAILABLE" in str(e):
+                    if attempt < 2:
+                        time.sleep(3)
+                        continue
+                raise
 
-except Exception as e:
-    print("Gemini API error:", e)
+    except Exception as e:
+        print("Gemini API error:", e)
 
-    return jsonify({
-        "error": "Gemini API error",
-        "details": str(e)
-    }), 500
+        return jsonify({
+            "error": "Gemini API error",
+            "details": str(e)
+        }), 500
 
 
 if __name__ == "__main__":
