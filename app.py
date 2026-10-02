@@ -2,46 +2,45 @@ import os
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from openai import OpenAI
+from google import genai
 
 app = Flask(__name__)
 CORS(app)
 
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+client = genai.Client(
+    api_key=os.environ.get("GEMINI_API_KEY")
+)
 
 
-@app.get("/")
+@app.route("/", methods=["GET"])
 def health():
     return "HAL backend is running!"
 
 
-@app.post("/chat")
+@app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json(silent=True) or {}
     message = data.get("message", "").strip()
 
     if not message:
-        return jsonify({"error": "message is required"}), 400
+        return jsonify({"error": "Message is required"}), 400
 
     try:
-        response = client.responses.create(
-            model="gpt-5.6-sol",
-            input=[
-                {
-                    "role": "user",
-                    "content": message
-                }
-            ]
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=message
         )
 
         return jsonify({
-            "reply": response.output_text
+            "reply": response.text
         })
 
     except Exception as e:
-        print("OPENAI ERROR:", repr(e), flush=True)        
+        print("Gemini API error:", e)
+
         return jsonify({
-            "error": str(e)
+            "error": "Gemini API error",
+            "details": str(e)
         }), 500
 
 
