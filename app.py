@@ -16,7 +16,6 @@ client = genai.Client(
 def health():
     return "HAL backend is running!"
 
-
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json(silent=True) or {}
