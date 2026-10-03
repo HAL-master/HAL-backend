@@ -4,6 +4,7 @@ import time
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from google import genai
+from google.genai import types
 
 app = Flask(__name__)
 CORS(app)
@@ -29,10 +30,17 @@ def chat():
         for attempt in range(3):
             try:
                 response = client.models.generate_content(
-                    model="gemini-3.8-flash",
-                    contents=message
+                     model="gemini-3.8-flash",
+                     contents=message,
+                config=types.GenerateContentConfig(
+                        tools=[
+                            types.Tool(
+                google_search=types.GoogleSearch()
+                            )
+                        ]
+                    )
                 )
-
+            
                 return jsonify({
                     "reply": response.text
                 })
