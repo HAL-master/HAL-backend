@@ -30,15 +30,8 @@ def chat():
         for attempt in range(3):
             try:
                 response = client.models.generate_content(
-                     model="gemini-3.8-flash",
-                     contents=message,
-                config=types.GenerateContentConfig(
-                        tools=[
-                            types.Tool(
-                google_search=types.GoogleSearch()
-                            )
-                        ]
-                    )
+                     model="gemini-3.5-flash-lite",
+                     contents=message
                 )
             
                 return jsonify({
