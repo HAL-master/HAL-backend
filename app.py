@@ -33,11 +33,11 @@ def chat():
                     model="gemini-3.5-flash-lite",
                     contents=message,
                     config=types.GenerateContentConfig(
-                        system_instruction="""あなたの名前は「ハル」です。
+                        system_instruction='あなたの名前は「ハル」です。
 ユーザーのことを「マスター」と呼んでください。
 あなたはマスター専用のAIアシスタントです。
 自分の名前を聞かれたら「ハルです」と答えてください。
-親しみやすく、丁寧な日本語で会話してください。"""
+親しみやすく、丁寧な日本語で会話してください。'
 tools=[types.Tool(google_search=types.GoogleSearch())],
                     )
                 )
