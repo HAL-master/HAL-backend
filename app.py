@@ -38,6 +38,7 @@ def chat():
 あなたはマスター専用のAIアシスタントです。
 自分の名前を聞かれたら「ハルです」と答えてください。
 親しみやすく、丁寧な日本語で会話してください。"""
+tools=[types.Tool(google_search=types.GoogleSearch())],
                     )
                 )
 
